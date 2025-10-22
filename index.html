@@ -4,19 +4,46 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Water Quest</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap" rel="stylesheet">
   <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <div class="container">
-    <h1>Water Quest</h1>
-    <p class="game-instructions">Collect 20 items to complete the game!</p>
-    <div class="stats">
-      <p>Cans Collected: <span id="current-cans">0</span></p>
-      <p>Time Left: <span id="timer">30</span>s</p>
+  <div class="app-bg">
+    <div class="container">
+      <header class="header">
+        <div class="title">
+          <img src="img/water-drop.svg" alt="drop" class="logo">
+          <h1>Water Quest</h1>
+        </div>
+        <p class="tag">Keep the island green — collect the water cans!</p>
+      </header>
+
+      <section class="hud">
+        <div class="stats">
+          <div class="stat-item">
+            <small>Collected</small>
+            <div class="stat-value"><span id="current-cans">0</span>/<span id="goal-cans">25</span></div>
+          </div>
+          <div class="stat-item">
+            <small>Time</small>
+            <div class="stat-value"><span id="timer">45</span>s</div>
+          </div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <main>
+        <div id="achievements" class="achievement" aria-live="polite"></div>
+        <div class="game-grid" role="grid" aria-label="game grid"></div>
+      </main>
+
+      <footer class="controls">
+        <button id="start-game" class="btn-primary">Start Game</button>
+        <button id="reset-game" class="btn-ghost">Reset</button>
+      </footer>
     </div>
-    <div id="achievements" class="achievement"></div>
-    <div class="game-grid"></div>
-    <button id="start-game">Start Game</button>
   </div>
   <script src="script.js"></script>
 </body>
