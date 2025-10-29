@@ -165,6 +165,42 @@ function launchConfetti() {
   frame();
 }
 
+// --- Emoji flood on loss ---
+function cleanupEmojiFlood() {
+  const existing = document.querySelector('.emoji-flood');
+  if (existing) existing.remove();
+}
+
+function launchEmojiFlood(count = 60) {
+  cleanupEmojiFlood();
+  const container = document.createElement('div');
+  container.className = 'emoji-flood';
+  const wrap = document.querySelector('.container');
+  wrap.appendChild(container);
+
+  const maxDuration = 6000; // ms
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'emoji';
+    el.textContent = '😭';
+    const left = Math.random() * 100; // percent
+    const size = 18 + Math.floor(Math.random() * 40); // px
+    const delay = Math.random() * 1000; // ms
+    const duration = 3000 + Math.random() * 3500; // ms
+    el.style.left = left + '%';
+    el.style.fontSize = size + 'px';
+    el.style.opacity = '0.95';
+    el.style.animation = `emojiFall ${duration}ms linear ${delay}ms forwards`;
+    // slight horizontal drift using transform translateX
+    const drift = (Math.random() - 0.5) * 60;
+    el.style.transform = `translateX(${drift}px)`;
+    container.appendChild(el);
+  }
+
+  // remove after animation finishes
+  setTimeout(() => { container.remove(); }, maxDuration + 1200);
+}
+
 function updateProgress() {
   const pct = Math.min(100, Math.round((currentCans / GOAL_CANS) * 100));
   progressBar.style.width = pct + '%';
@@ -223,6 +259,8 @@ function endGame(won = false) {
     showAchievement('You saved the island! 🎉');
   } else {
     showAchievement('Time up! Try again.');
+    // show crying emoji flood on loss
+    launchEmojiFlood();
   }
 }
 
@@ -231,7 +269,7 @@ function resetGame() {
   clearInterval(countdownInterval);
   gameActive = false;
   currentCans = 0;
-  timerEl.textContent = '30';
+  timerEl.textContent = '45';
   currentCansEl.textContent = currentCans;
   progressBar.style.width = '0%';
   createGrid();
